@@ -1,17 +1,25 @@
 from rest_framework import serializers
 from app.models import CarroModel, GaragemModel, UserModel
+from django.contrib.auth.models import User
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserModel
-        fields = ['nome', 'email']
 
 class CarroSerializer(serializers.ModelSerializer):
+    # CarroSerializer implementation
+
     class Meta:
         model = CarroModel
-        fields = ['nome','modelo', 'cor']
+        fields = '__all__'
+
+class UserSerializer(serializers.ModelSerializer):
+    colecao = CarroSerializer(many=True, required=False)
+    
+    class Meta:
+        model = UserModel
+        fields = '__all__'
 
 class GaragemSerializer(serializers.ModelSerializer):
+    estacionados = CarroSerializer(many=True, required=False)
+
     class Meta:
         model = GaragemModel
-        fields = ['numero']
+        fields = '__all__'
